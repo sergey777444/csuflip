@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Практическая грамматика — зачёт, 1 семестр</title>
+<style>
+:root{--bg:#12121f;--card:#1c1f3a;--line:#4a4f8a;--txt:#eef0ff;--mut:#a9aed6;--acc:#ffd75e;--ok:#4caf74}
+@media (prefers-color-scheme:light){:root{--bg:#f4f5fb;--card:#fff;--line:#c5c9e6;--txt:#1a1c33;--mut:#5a5f86;--acc:#b8860b;--ok:#2e7d4f}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.5 system-ui,sans-serif}
+header{padding:14px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:5}
+h1{font-size:18px;margin:0 0 8px}
+nav{display:flex;gap:6px;flex-wrap:wrap}
+nav button{background:var(--card);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:5px 10px;cursor:pointer;font:inherit;font-size:14px}
+nav button.on{background:var(--acc);color:#111;border-color:var(--acc);font-weight:700}
+main{max-width:820px;margin:0 auto;padding:16px}
+.q{font-size:19px;font-weight:700;margin:0 0 12px;color:var(--acc)}
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+summary{cursor:pointer;color:var(--mut);font-size:14px;margin-bottom:6px}
+table{width:100%;border-collapse:collapse;margin:8px 0;font-size:15px}
+th,td{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}
+th{background:rgba(120,130,255,.15)}
+.ex{color:var(--mut);font-style:italic}
+b{color:var(--acc)}
+ul,ol{padding-left:20px;margin:6px 0}
+li{margin:3px 0}
+h3{margin:12px 0 4px;font-size:16px;color:var(--ok)}
+.tools{display:flex;gap:8px;margin-bottom:12px}
+.tools button{background:none;border:1px solid var(--line);color:var(--mut);border-radius:8px;padding:4px 10px;cursor:pointer}
+.pn{display:flex;justify-content:space-between;margin-top:14px}
+.pn button{background:var(--card);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:8px 14px;cursor:pointer}
+</style>
+</head>
+<body>
+<header><h1>Практическая грамматика · зачёт · 1 семестр</h1><nav id="nav"></nav></header>
+<main>
+<div class="tools"><button onclick="setAll(true)">Показать ответ</button><button onclick="setAll(false)">Скрыть ответ</button></div>
+<div id="view"></div>
+<div class="pn"><button onclick="go(cur-1)">← Назад</button><button onclick="go(cur+1)">Вперёд →</button></div>
+</main>
+<script>
+const T=[
+{n:"1",t:"Parts of speech / sentence",q:"Name parts of speech and parts of the sentence. Define the sentence.",a:`
+<p><b>Sentence</b> — a group of words that expresses a <b>complete thought</b>. Word order: Subject → Predicate → Object/Complement → Modifier.</p>
+<h3>Parts of speech</h3>
+<table><tr><th>Part</th><th>Function</th><th>Ex.</th></tr>
+<tr><td>Noun</td><td>names a person, place, thing</td><td>book</td></tr>
+<tr><td>Verb</td><td>action or state</td><td>run</td></tr>
+<tr><td>Adjective</td><td>describes a noun</td><td>beautiful</td></tr>
+<tr><td>Adverb</td><td>modifies a verb / adjective</td><td>slowly</td></tr>
+<tr><td>Pronoun</td><td>replaces a noun</td><td>he</td></tr>
+<tr><td>Numeral</td><td>shows a number</td><td>five</td></tr>
+<tr><td>Preposition</td><td>shows relationships</td><td>in</td></tr>
+<tr><td>Conjunction</td><td>connects words/sentences</td><td>and</td></tr>
+<tr><td>Interjection</td><td>expresses emotion</td><td>wow</td></tr>
+<tr><td>Determiner</td><td>identifies a noun</td><td>the</td></tr>
+<tr><td>Linking word</td><td>connects ideas</td><td>although</td></tr></table>
+<h3>Parts of the sentence</h3>
+<table><tr><th>Part</th><th>Function</th><th>Ex.</th></tr>
+<tr><td>Subject</td><td>who does the action</td><td>Mary</td></tr>
+<tr><td>Predicate</td><td>shows the action</td><td>reads</td></tr>
+<tr><td>Object</td><td>receives the action</td><td>a book</td></tr>
+<tr><td>Complement</td><td>completes the meaning</td><td>happy</td></tr>
+<tr><td>Adverbial modifier</td><td>time, place, manner</td><td>yesterday</td></tr></table>
+<p><b>Direct object</b> — receives the action. <b>Indirect object</b> — receives something.</p>`},
+
+{n:"2",t:"Order of adverbs",q:"Speak about the order of adverbs in the sentence.",a:`
+<ul>
+<li><b>Manner, Place, Time</b> (usual order): <span class="ex">She sang beautifully at the concert yesterday.</span></li>
+<li><b>Place before time</b>; with verbs of movement (go, come, travel) place comes before manner: <span class="ex">He went to school quickly.</span></li>
+<li><b>Frequency</b> (always, usually, often, never, seldom, rarely, sometimes): <b>before the main verb</b>, <b>after be</b> and after the first auxiliary: <span class="ex">He usually works late. She is never late. I have often seen him.</span></li>
+<li><b>Degree</b> (very, quite, too, rather, extremely): before the adjective/adverb they modify: <span class="ex">very slowly.</span> <i>Enough</i> goes after: <span class="ex">fast enough.</span></li>
+<li><b>Sentence adverbs / time</b> (probably, luckily, yesterday) — at the beginning or end: <span class="ex">Luckily, nobody was hurt.</span></li>
+<li><b>Just, already, still, always</b> — mid position (before main verb); <b>yet</b> — end of the sentence.</li>
+<li>Adverbs never go between verb and direct object: <span class="ex">He speaks English well</span> (not “speaks well English”).</li></ul>`},
+
+{n:"3",t:"Degrees of comparison",q:"Speak about degrees of comparison of adjectives and adverbs.",a:`
+<p>Three degrees: <b>positive → comparative → superlative</b>.</p>
+<table><tr><th>Rule</th><th>Positive</th><th>Comparative</th><th>Superlative</th></tr>
+<tr><td>1 syllable</td><td>small / big</td><td>smaller / bigger</td><td>(the) smallest / biggest</td></tr>
+<tr><td>2 syllables in -y</td><td>happy / early</td><td>happier / earlier</td><td>(the) happiest / earliest</td></tr>
+<tr><td>More than 2 syllables</td><td>famous</td><td>more famous</td><td>(the) most famous</td></tr>
+<tr><td>Ending in -ed/-ing</td><td>excited / interesting</td><td>more excited / more interesting</td><td>(the) most excited / interesting</td></tr>
+<tr><td>Irregular</td><td>good/well<br>bad/badly<br>far<br>little</td><td>better<br>worse<br>farther (distance) / further (more, additional)<br>less</td><td>(the) best<br>(the) worst<br>(the) farthest / furthest<br>(the) least</td></tr></table>
+<p><b>Both forms possible</b> (-er/-est and more/most): clever, common, cruel, gentle, narrow, pleasant, polite, quiet, simple, stupid.</p>
+<p>Spelling: big → bigger (doubling), happy → happier (y → i).</p>`},
+
+{n:"4",t:"Subject-verb agreement",q:"Give the rules of subject-verb agreement.",a:`
+<ol>
+<li><b>Prepositional phrases</b> do not affect the verb: <span class="ex">The study of languages is interesting.</span></li>
+<li><b>AND</b> takes a plural verb: <span class="ex">John and Mary are friends.</span></li>
+<li><b>Indefinite pronouns</b> usually take singular verbs: <span class="ex">Everybody works.</span></li>
+<li><b>Either…or / Neither…nor</b> agree with the second subject: <span class="ex">Either he or she is right.</span></li>
+<li><b>Always-plural nouns</b> take plural verbs: <span class="ex">Trousers are expensive.</span></li>
+<li><b>There is / There are</b> agree with the following noun: <span class="ex">There are two books.</span></li>
+<li><b>Who</b> agrees with its antecedent: <span class="ex">It is I who am right.</span></li>
+<li><b>Time, distance, money</b> — singular when seen as one unit: <span class="ex">Three miles is far.</span></li>
+<li><b>Expressions of portion</b> agree with the noun after OF: <span class="ex">A lot of water is needed. / A lot of students are here.</span></li>
+<li><b>Collective nouns</b> — singular or plural depending on meaning: <span class="ex">My family has/have arrived.</span></li></ol>`},
+
+{n:"5",t:"Present Simple",q:"When do we use the Present Simple tense? The time expressions.",a:`
+<ol>
+<li><b>Permanent states, repeated actions, daily routines:</b> <span class="ex">She works at school. She takes the bus every morning.</span></li>
+<li><b>General truths, laws of nature:</b> <span class="ex">The sun sets in the west.</span></li>
+<li><b>Timetables and programmes:</b> <span class="ex">The train from Moscow arrives at 3 o’clock.</span></li>
+<li><b>Sports commentaries, reviews, narrations:</b> <span class="ex">Peterson overtakes Williams and wins the race.</span></li>
+<li><b>Instructions / directions</b> (instead of imperative): <span class="ex">You sprinkle some cheese on the pizza and then you bake it.</span></li></ol>
+<p><b>Time expressions:</b> usually, often, always, seldom, rarely, never, sometimes, every day/week/month, once/twice a week, in the morning/afternoon/evening, at night, on Mondays.</p>`},
+
+{n:"6",t:"Present Continuous",q:"When do we use the Present Continuous tense? The time expressions.",a:`
+<ol>
+<li><b>Action at the moment of speaking:</b> <span class="ex">She is cleaning her teeth now.</span></li>
+<li><b>Temporary action around now</b> (not at the moment): <span class="ex">They are looking for a job these days.</span></li>
+<li><b>Changing / developing situations:</b> <span class="ex">More and more people are going to university these days.</span></li>
+<li><b>With always, constantly, continually, forever</b> — annoyance, irritation: <span class="ex">You’re always interrupting me.</span></li>
+<li><b>Arranged future plans:</b> <span class="ex">We are moving into our new house next week.</span></li></ol>
+<p><b>Time expressions:</b> now, at the moment, at present, these days, this week, currently, just, still, nowadays, today, tonight; Listen! Look!</p>`},
+
+{n:"7",t:"Past Simple",q:"When do we use the Past Simple tense? The time expressions.",a:`
+<ol>
+<li><b>Definite time in the past</b> (stated, known or implied): <span class="ex">They went to the theatre last week.</span></li>
+<li><b>Succession of actions:</b> <span class="ex">First, she paid the driver, then she got out of the taxi.</span></li>
+<li><b>Past habits/states now finished</b> (also <i>used to</i>): <span class="ex">Schools were/used to be very different a hundred years ago.</span></li>
+<li><b>People who are no longer alive:</b> <span class="ex">Michael Jackson sang great songs.</span></li></ol>
+<p><b>Time expressions:</b> yesterday, then, when, How long ago…?, last night/week/month/Tuesday, three days/weeks ago, in 1999.</p>
+<h3>Used to / would</h3>
+<p>Something true in the past but not now: <b>used to + inf</b>, <b>would + inf</b>.</p>
+<ul><li><b>Used to</b> — past repeated actions <u>and</u> states: <span class="ex">He used to ride a bike. He used to love it.</span></li>
+<li><b>Would</b> — only past actions, <u>not states</u>: <span class="ex">He would ride a bike a lot when he was 10.</span></li>
+<li>Would is more likely when describing several past actions: <span class="ex">Each summer we would go to the seaside, we would swim and sunbathe.</span></li></ul>`},
+
+{n:"8",t:"Past Continuous",q:"When do we use the Past Continuous tense? The time expressions.",a:`
+<ol>
+<li><b>Action in progress at a stated past time</b> (start/end not mentioned): <span class="ex">At seven o’clock yesterday they were having dinner.</span></li>
+<li><b>Interrupted action:</b> Past Continuous (longer) + Past Simple (shorter): <span class="ex">He was walking down the street when he ran into an old friend.</span></li>
+<li><b>Two or more simultaneous past actions:</b> <span class="ex">She was talking on the phone while she was driving to work.</span></li>
+<li><b>Atmosphere / setting</b> in the introduction to a story: <span class="ex">Ben was strolling down a lane. The birds were singing.</span></li></ol>
+<p><b>Time expressions:</b> while, when, as, all morning/evening/day/night.</p>`},
+
+{n:"9",t:"Present Perfect (+ Continuous)",q:"When do we use the Present Perfect and Present Perfect Continuous tenses? The time expressions.",a:`
+<h3>Present Perfect</h3>
+<ol>
+<li><b>Action started in the past, continues to now</b> (state verbs: be, have, like, know; with for/since): <span class="ex">Rachel has had the dog for three years.</span></li>
+<li><b>Recently finished, result visible now:</b> <span class="ex">She has just washed her hair.</span></li>
+<li><b>Unstated time in the past</b> (emphasis on action): <span class="ex">The Taylors have bought a sailing boat.</span></li>
+<li><b>Period not over yet</b> (today, this morning/evening): <span class="ex">She has taken fifteen pictures today.</span></li>
+<li><b>After “It’s / This is the first/second time”:</b> <span class="ex">It’s the first time they have bought their own car.</span></li></ol>
+<p><i>Note:</i> Present Perfect announces news; Past Simple / Past Continuous gives details.</p>
+<p><b>Time exp.:</b> for, since, already, yet, always, just, ever, never, so far, today, this week/month, how long, lately, recently, still (in negations), this is the first/second time.</p>
+<h3>Present Perfect Continuous</h3>
+<ol>
+<li><b>Duration of an action</b> that started in the past and is still going on (for, since, all morning/year): <span class="ex">Sam has been talking on the phone for half an hour.</span></li>
+<li><b>Repeated actions / changing situations up to now</b> (recently, lately, over the last decade): <span class="ex">They have been working hard lately.</span></li>
+<li><b>Action that lasted some time; may be finished; result visible (evidence):</b> <span class="ex">Her feet hurt. She has been walking all morning.</span></li></ol>
+<p><b>Time exp.:</b> for, since, how long, lately, recently, over (the last decade), for some time.</p>`},
+
+{n:"10",t:"Past Perfect (+ Continuous)",q:"When do we use the Past Perfect and Past Perfect Continuous tenses? The time expressions.",a:`
+<h3>Past Perfect</h3>
+<ol>
+<li><b>Action before another past action or before a stated past time:</b> <span class="ex">They had already reserved a table when they went to the restaurant.</span></li>
+<li><b>Finished action with a result visible in the past:</b> <span class="ex">He had broken his leg, so he couldn’t walk.</span></li></ol>
+<p>Past Perfect = the past equivalent of Present Perfect.</p>
+<p><b>Time exp.:</b> before, after, already, for, since, just, till/until, when, by, by the time, never.</p>
+<h3>Past Perfect Continuous</h3>
+<ol>
+<li><b>Duration of an action</b> that started and finished before another past action/time (since, for): <span class="ex">They had been skating together for 5 years before they entered the competition.</span></li>
+<li><b>Action that lasted some time, result visible in the past:</b> <span class="ex">She was really tired. She had been working hard that day.</span></li></ol>
+<p>Past Perfect Continuous = the past equivalent of Present Perfect Continuous.</p>
+<p><b>Time exp.:</b> before, for, since, how long, until.</p>`},
+
+{n:"11",t:"Future references",q:"Name all the tenses and structures that describe future references.",a:`
+<h3>Future Simple (will)</h3>
+<ol><li>Predictions based on opinion/experience (think, believe, expect, probably…): <span class="ex">I’m afraid we won’t be on time.</span></li>
+<li>On-the-spot decisions: <span class="ex">I’ll take this red umbrella.</span></li>
+<li>Promises, threats, warnings, requests, hopes, offers: <span class="ex">Will you help me? — I’ll explain it.</span></li>
+<li>Certain future we cannot control: <span class="ex">He will be 30 next year.</span></li>
+<li>Formal style, arranged events: <span class="ex">The meeting will begin at 11.</span></li></ol>
+<h3>Be going to</h3>
+<ol><li>Intentions/ambitions: <span class="ex">I’m going to become a famous scientist.</span></li>
+<li>Predictions with evidence: <span class="ex">Look at the clouds! It’s going to rain.</span></li></ol>
+<p>With go/come prefer Present Continuous; with be prefer going to.</p>
+<h3>Present Continuous</h3><p>Decided and arranged near future: <span class="ex">I’m flying to Paris tomorrow morning.</span></p>
+<h3>Present Simple</h3><p>Programmes and timetables: <span class="ex">This bus arrives at 7.30.</span></p>
+<h3>Future Continuous</h3>
+<ol><li>Action in progress at a stated future time: <span class="ex">This time next week we’ll be swimming in the Pacific.</span></li>
+<li>Planned events (also Present Continuous): <span class="ex">We will be leaving for Paris tomorrow.</span></li>
+<li>Will happen as a result of routine/arrangement: <span class="ex">I’ll be seeing Jill later.</span></li>
+<li>Polite questions about plans: <span class="ex">Will you be using the photocopier for long?</span></li></ol>
+<p><b>Time exp.:</b> this time next week, at 3 o’clock, still, for (a long time).</p>
+<h3>Future Perfect / Perfect Continuous</h3><p>See topic 12.</p>
+<h3>Other structures</h3>
+<ul><li><b>Be to + inf</b> (formal): <span class="ex">The President is to visit Poland.</span></li>
+<li><b>Be about to + inf / be on the point of + -ing</b> (very near future): <span class="ex">The bus is about to leave.</span></li>
+<li><b>Be due to + inf</b> (timetables): <span class="ex">Their flight is due to arrive at 6:15.</span></li>
+<li><b>decide, plan, intend, arrange, mean + to-inf</b> (plans): <span class="ex">We intend to buy a bigger flat.</span></li>
+<li><b>Be sure to / certain to / bound to + inf</b> (certainty): <span class="ex">This plan is bound to succeed.</span></li></ul>
+<h3>Time clauses</h3>
+<p>After <b>while, before, after, until/till, as, unless, when, whenever, if, once, as soon as, as long as, by the time, in case</b> use Present Simple / Present Perfect, <u>not</u> future.</p>
+<p>Future forms are used: with <b>when</b> as a question word (<span class="ex">When will they get married?</span>) and with <b>if</b> (=whether) after I don’t know / I wonder / I doubt (<span class="ex">I don’t know if he’ll move.</span>).</p>
+<h3>Future in the past</h3>
+<ul><li>was going to / was to / was about to / was due to + inf: <span class="ex">Mr Simon was going to resign.</span></li>
+<li>was on the point of + -ing: <span class="ex">They were on the point of leaving when the phone rang.</span></li>
+<li>would: <span class="ex">He mentioned that they would organize the quiz.</span></li></ul>`},
+
+{n:"12",t:"Future Perfect (+ Continuous)",q:"When do we use the Future Perfect and the Future Perfect Continuous?",a:`
+<h3>Future Perfect</h3>
+<p>For an action that <b>will be finished before a future action or a stated future time</b>.</p>
+<p class="ex">She will have delivered all the newspapers by 8 o’clock.</p>
+<p><b>Time exp.:</b> before, by, by then, by the time, until/till.</p>
+<h3>Future Perfect Continuous</h3>
+<p>To <b>emphasise the duration</b> of an action up to a certain time or action in the future.</p>
+<p class="ex">By the end of next month, she will have been teaching for twenty years.</p>
+<p><b>Time exp.:</b> for, all, by…for.</p>`}
+];
+let cur=0,open=true;
+const nav=document.getElementById('nav'),view=document.getElementById('view');
+T.forEach((x,i)=>{const b=document.createElement('button');b.textContent=x.n;b.title=x.t;b.onclick=()=>go(i);nav.appendChild(b)});
+function render(){
+ [...nav.children].forEach((b,i)=>b.classList.toggle('on',i===cur));
+ const x=T[cur];
+ view.innerHTML=`<p class="q">${x.n}. ${x.q}</p><details ${open?'open':''}><summary>Ответ</summary>${x.a}</details>`;
+ const d=view.querySelector('details');d.addEventListener('toggle',()=>{open=d.open});
+}
+function go(i){cur=Math.max(0,Math.min(T.length-1,i));render();scrollTo(0,0)}
+function setAll(v){open=v;render()}
+render();
+</script>
+</body>
+</html>
